@@ -256,44 +256,11 @@ export default function Crossword({ edit, item }: ICrossword) {
   const words: string[] = item.words.map((el) => el.word);
 
   useEffect(() => {
-    const generateAndCheckCrossword = () => {
-      const startTime = Date.now();
-      const maxTime = 30; // Maksymalny czas w milisekundach
+    const crosswordBoard: string[][] = generateCrossword(words);
 
-      const tryGenerate = () => {
-        const elapsedTime = Date.now() - startTime;
-
-        if (elapsedTime > maxTime) {
-          console.log("Max time reached. Re-generating crossword.");
-          generateAndCheckCrossword(); // Ponowne generowanie
-          return;
-        }
-
-        const crosswordBoard = generateCrossword(words);
-
-        if (crosswordBoard && crosswordBoard.length > 0) {
-          console.log("Generated crossword:", crosswordBoard);
-          setCrossword(crosswordBoard);
-          return;
-        }
-
-        // Jeśli krzyżówka nie została wygenerowana, próbuj ponownie po 10 ms
-        setTimeout(tryGenerate, 10);
-      };
-
-      tryGenerate(); // Rozpocznij generowanie
-    };
-
-    generateAndCheckCrossword(); // Pierwsze wywołanie funkcji generującej
+    setCrossword(crosswordBoard);
+    console.log(crosswordBoard);
   }, []);
-
-  // useEffect(() => {
-  //     setDate(new Date().getTime());
-  //     const crosswordBoard: string[][] = generateCrossword(words);
-
-  //     setCrossword(crosswordBoard);
-  //     console.log(crosswordBoard);
-  // }, []);
   return (
     <div className="w-full">
       {!edit && (
